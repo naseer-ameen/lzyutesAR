@@ -1,51 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
-    </head>
+  <head>
+    <link rel="stylesheet"
+          href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/soundjs.min.js"></script>
+    <script> 
+    window.onload = function pause() {
+    document.querySelector("a-entity").setAttribute('animation-mixer', {
+      timeScale: 0
+    });
+      
+      
+      var el = document.querySelector(".audio-button")
+function play() {
+    let audio = document.querySelector("#animation-audio")
+          let playing = false
+  
+          if(!playing) {
+              setTimeout(()=>{
+                audio.play();
+                }, 6500)
+           } else {
+              audio.pause();
+              audio.currentTime = 0;
+           } 
+      playing = !playing;   
+  
+        document.querySelector("a-entity").setAttribute('animation-mixer', {
+      timeScale: 1
+    });
+        }
+       el.addEventListener("click", play)
+    };
+  </script>
+  <style>
+    .buttons {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
 
-    <body style="margin: 0; overflow: hidden;">
-        <a-scene
-            vr-mode-ui="enabled: false;"
-            loading-screen="enabled: false;"
-            renderer="logarithmicDepthBuffer: true;"
-            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-            id="scene"
-            embedded
-            gesture-detector
-        >
-            <a-assets>
-                <a-asset-item
-                    id="animated-asset"
-                    src="assets/asset.glb"
-                ></a-asset-item>
-            </a-assets>
+    .audio-button {
+      padding: 0.25em;
+      border-radius: 4px;
+      border: none;
+      color: black;
+      width: 2em;
+      height: 1.9em;
+    }
+  </style>
+  </head>
+  
+  <body style="margin : 0px; overflow: hidden;">
+    <a-scene
+      id="scene"
+      vr-mode-ui="enabled: false;"
+      loading-screen="enabled: false;"
+      renderer="logarithmicDepthBuffer: true;"
+      arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
+      embedded
+    >
+      <a-assets>
+        <a-asset-item
+          id="animated-asset"
+          src="https://cdn.glitch.global/51fdecd3-058a-4a11-a5a0-de98935127d0/untitled.glb?v=1662461115344"
+          preload="auto"
+        ></a-asset-item>
+        <audio
+          id="animation-audio"
+          src="https://cdn.glitch.global/51fdecd3-058a-4a11-a5a0-de98935127d0/AUD-20220717-WA0010.m4a?v=1662681878585"
+          preload="auto"
+        ></audio>
+      </a-assets>
+      
+      <a-marker
+        id="animated-marker"
+        type="pattern"
+        preset="custom"
+        url="https://cdn.glitch.global/51fdecd3-058a-4a11-a5a0-de98935127d0/pattern-lzy%20yutes%20logo.patt?v=1661260849266"
+        raycaster="objects: .clickable"
+        cursor="fuse: false; rayOrigin: mouse;"
+      >
+        <div class="buttons">
+      <button class="audio-button"><i class="fa fa-play"></i></button>
+       </div>
+        <a-entity
+          id="animated-model"
+          scale="10 10 10"
+          rotation = "-90 0 0"
+          animation-mixer="loop: repeat"
+          gltf-model="#animated-asset"
+          class="clickable"
+        >  
+        </a-entity>
+      </a-marker>
 
-            <a-marker
-                id="animated-marker"
-                type="pattern"
-                preset="custom"
-                url="assets/marker.patt"
-                raycaster="objects: .clickable"
-                emitevents="true"
-                cursor="fuse: false; rayOrigin: mouse;"
-                id="markerA"
-            >
-                <a-entity
-                    id="bowser-model"
-                    scale="1.8779225401904427 1.8779225401904427 1.8779225401904427"
-                    animation-mixer="loop: repeat"
-                    gltf-model="#animated-asset"
-                    class="clickable"
-                    gesture-handler
+      <a-entity camera     
                 ></a-entity>
-            </a-marker>
-
-            <a-entity camera></a-entity>
-        </a-scene>
-    </body>
+    </a-scene>
+  </body>
 </html>
