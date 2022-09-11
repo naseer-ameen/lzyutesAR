@@ -18,17 +18,16 @@
 function play() {
     let audio = document.querySelector("#animation-audio")
           let playing = false
-  
-          if(!playing) {
-              setTimeout(()=>{
+
+           if(!playing) {
+              
                 audio.play();
-                }, 6500)
+                
            } else {
               audio.pause();
               audio.currentTime = 0;
            } 
       playing = !playing;   
-  
         document.querySelector("a-entity").setAttribute('animation-mixer', {
       timeScale: 1
     });
